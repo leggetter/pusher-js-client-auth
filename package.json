@@ -1,0 +1,28 @@
+{
+  "name": "pusher-js-client-auth",
+  "version": "0.0.1",
+  "description": "Allow authentication to take place entirely in the client, avoiding the need for a server component. This is a security risk but may have some valid use cases or be useful when getting started.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pusher",
+    "javascript",
+    "pusher-js"
+  ],
+  "author": "Phil Leggetter",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "~3.8.10",
+    "gulp-browserify": "~0.5.0",
+    "karma": "~0.12.24",
+    "karma-bro": "~0.10.0",
+    "karma-jasmine": "~0.2.3",
+    "karma-chrome-launcher": "~0.1.5",
+    "karma-phantomjs-launcher": "~0.1.4"
+  },
+  "dependencies": {
+    "crypto-browserify": "~3.3.0"
+  }
+}
