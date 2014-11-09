@@ -2,7 +2,7 @@
 
 Pusher is built with security in mind. Because of this you need to authenticate subscriptions to `private-` and `presence-` channels against a server. However, *sometimes* you don't want to do this. This plugin provides a way of authenticating on the client (in the browser).
 
-However, in order to do this you will expose your application secret. You **should not expose your application secret** in production.
+However,  **you SHOULD NOT expose your application secret in production**. If you have a real production use case for this then please [drop me an email](mailto:phil@leggetter.co.uk).
 
 ## Prerequisites
 

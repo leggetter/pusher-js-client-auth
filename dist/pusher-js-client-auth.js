@@ -33,6 +33,16 @@ function ClientAuthorizer( options ) {
  *    Additional channel data to be included in the authentication signature
  */
 ClientAuthorizer.prototype.auth = function(socketId, channel, channelData) {
+  if( channel.indexOf( 'presence-' ) === 0 ) {
+
+    if( !channelData ) {
+      throw Error( '"channelData" is required when authenticating a Presence channel' );
+    }
+    if( !channelData.user_id ) {
+      throw Error( '"channelData.user_id" must be set when authenticating a Presence channel' );
+    }
+  }
+
   var returnHash = {};
   var channelDataStr = '';
   if (channelData) {
@@ -45,17 +55,64 @@ ClientAuthorizer.prototype.auth = function(socketId, channel, channelData) {
   return returnHash;
 };
 
+// Static Helpers
+
+/**
+ * Setup up the client authoriser.
+ *
+ * @param {Pusher} Pusher
+ *    The Pusher global reference.
+ */
+ClientAuthorizer.setUpPusher = function( Pusher ) {
+  Pusher.authorizers.client = ClientAuthorizer.clientAuth;
+};
+
+/**
+ * Perform the client authentication. Called by Pusher library when authTransport
+ * is set to 'client'.
+ *
+ * When this is executed it will be scoped so that `this` reference an instance
+ * of `Pusher.Channel.Authorizer`.
+ *
+ * @param {String} socketId
+ *    The id of the socket being authenticated to subscribe to the channel.
+ * @param {Function} callback
+ *    The callback to be executed when the authentication has completed.
+ */
+ClientAuthorizer.clientAuth = function( socketId, callback ){
+  var authorizer = ClientAuthorizer.createAuthorizer( this.options.clientAuth );
+  var channelData = null;
+  if( this.options.clientAuth.user_id ) {
+    channelData = {
+      user_id: this.options.clientAuth.user_id,
+      user_info: this.options.clientAuth.user_info
+    };
+  }
+  var hash = authorizer.auth( socketId, this.channel.name, channelData );
+  callback( null, hash );
+};
+
+/**
+ * Factory function for creating a ClientAuthorizer.
+ *
+ * @param {Object} clientAuthOption
+ *    The client authentication options.
+ * @returns ClientAuthorizer
+ */
+ClientAuthorizer.createAuthorizer = function( clientAuthOptions ) {
+  var authorizer = new ClientAuthorizer( clientAuthOptions );
+  return authorizer;
+};
+
 module.exports = ClientAuthorizer;
 
 },{"crypto":7}],2:[function(require,module,exports){
 ( function( Pusher ) {
-  var ClientAuthorizer = require( './ClientAuthorizer' );
+  console.warn( 'By using pusher-js client authentication you are exposing ' +
+                'your application secret. DO NOT do this in production.' );
 
-  Pusher.authorizers.client = function(socketId, callback){
-    var authorizer = new ClientAuthorizer( this.options.clientAuth );
-    var hash = authorizer.auth( socketId, this.channel.name, null );
-    callback( null, hash );
-  };
+  var ClientAuthorizer = require( './ClientAuthorizer' );
+  ClientAuthorizer.setUpPusher( Pusher );
 
 } )( window.Pusher );
 
