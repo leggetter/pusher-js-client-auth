@@ -21,13 +21,17 @@ Load the plugin after including the Pusher library
 
 This plugin comes with a few extra configuration parameters. The whole list is available at the [Pusher-js Github page](https://github.com/pusher/pusher-js#configuration)
 
-    var pusher = new Pusher(APP_KEY, {
-        authTransport: 'client',
-        clientAuth: {
-          key: APP_KEY
-          secret: APP_SECRET
-        }
-    });
+```js
+var pusher = new Pusher(APP_KEY, {
+    authTransport: 'client',
+    clientAuth: {
+      key: APP_KEY
+      secret: APP_SECRET,
+      user_id: USER_ID,
+      user_info: {}
+    }
+});
+```
 
 ### `clientAuth.key` (String)
 
@@ -37,6 +41,26 @@ Required field. This is duplicating the `APP_KEY`. However, there is no nice way
 
 Required field. This is your application secret. *Remember: do not deploy this to production*.
 
-## TODO
+### `user_id` (String)
 
-* Presence subscriptions won't work as `channel_data` is required. Need to define a way of passing user information and additional data
+The `user_id` used when authenticating Presence channels. This user id will be used to uniquely identify the user.
+
+### `user_info` (Object)
+
+The `user_info` used when authenticating Presence channels. The information supplied here will be available to anybody subscribed to the presence channel.
+
+```js
+var pusher = new Pusher(APP_KEY, {
+    authTransport: 'client',
+    clientAuth: {
+      key: APP_KEY
+      secret: APP_SECRET,
+      user_id: 'leggetter',
+      user_info: {
+        twitter: 'leggetter'
+        github: 'leggetter'
+        bio: 'Developer Evangelist'
+      }
+    }
+});
+```
