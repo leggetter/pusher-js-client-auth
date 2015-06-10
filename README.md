@@ -25,7 +25,7 @@ This plugin comes with a few extra configuration parameters. The whole list is a
 var pusher = new Pusher(APP_KEY, {
     authTransport: 'client',
     clientAuth: {
-      key: APP_KEY
+      key: APP_KEY,
       secret: APP_SECRET,
       user_id: USER_ID,
       user_info: {}
