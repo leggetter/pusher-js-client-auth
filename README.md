@@ -64,3 +64,25 @@ var pusher = new Pusher(APP_KEY, {
     }
 });
 ```
+
+## Library Development
+
+### Setup
+
+Install Gulp globally.
+
+```
+$ npm install --global gulp
+```
+
+Install module dev dependencies.
+
+```
+$ npm install
+```
+
+### Testing
+
+```
+gulp test
+```
