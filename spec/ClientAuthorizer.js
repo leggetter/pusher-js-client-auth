@@ -120,6 +120,21 @@ describe( 'ClientAuthorizer', function() {
 
     expect( authToken ).toBeDefined();
   } );
+  
+  it( 'should set the auth.channel_data value to a String', function() {
+    var authorizer = new ClientAuthorizer( {
+      key: 'test-key',
+      secret: 'test-secret'
+    } );
+    var authToken = authorizer.auth( 'some-socket-id', 'presence-channel-name', {
+      user_id: 'leggetter',
+      user_info: {
+        some: 'thing'
+      }
+    } );
+
+    expect( typeof(authToken.channel_data) ).toBe('string');
+  } );
 
   it( 'should require channelData to be passed when authenticating a presence channel', function () {
     var authorizer = new ClientAuthorizer( {
