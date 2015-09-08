@@ -84,6 +84,32 @@ describe( 'ClientAuthorizer', function() {
 
     expect( noSecret ).toThrow();
   } );
+  
+  it( 'should build a string to sign from channel name and socket ID in the expected format', function() {
+    var channelName = 'private-channel';
+    var socketId = 'some_socket_id';
+    
+    var expectedString = socketId + ':' + channelName;
+    var actualString = ClientAuthorizer.createStringToSign(socketId, channelName);
+
+    expect( expectedString ).toBe( actualString );
+  } );
+  
+  it( 'should build a string to sign from channel name, socket ID and channel data in the expected format', function() {
+    var channelName = 'private-channel';
+    var socketId = 'some_socket_id';
+    var channelData = {
+      user_id: 'some_user_id',
+      user_info: {
+        name: 'Phil'
+      }
+    };
+    
+    var expectedString = socketId + ':' + channelName + ':' + JSON.stringify(channelData);
+    var actualString = ClientAuthorizer.createStringToSign(socketId, channelName, channelData);
+
+    expect( expectedString ).toBe( actualString );
+  } );
 
   it( 'should be possible to call auth', function() {
     var authorizer = new ClientAuthorizer( {
