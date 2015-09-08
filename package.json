@@ -1,6 +1,6 @@
 {
   "name": "pusher-js-client-auth",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Allow authentication to take place entirely in the client, avoiding the need for a server component. This is a security risk but may have some valid use cases or be useful when getting started.",
   "main": "index.js",
   "scripts": {

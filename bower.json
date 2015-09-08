@@ -1,6 +1,6 @@
 {
   "name": "pusher-js-client-auth",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "homepage": "https://github.com/leggetter/pusher-js-client-auth",
   "authors": [
     "leggetter <phil@leggetter.co.uk>"
@@ -18,11 +18,5 @@
     "authorizer"
   ],
   "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+  "ignore": ["**/*", "!/dist/*", "!README.md", "!bower.json", "!CHANGELOG.markdown"]
 }

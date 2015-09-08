@@ -48,7 +48,7 @@ ClientAuthorizer.prototype.auth = function(socketId, channel, channelData) {
   var returnHash = {};
   
   if(channelData) {
-    returnHash.channel_data = channelData;
+    returnHash.channel_data = JSON.stringify(channelData);
   }
   
   returnHash.auth = this.key + ':' + crypto.createHmac('sha256', this.secret).update(stringToSign).digest('hex');
@@ -125,15 +125,26 @@ ClientAuthorizer.createAuthorizer = function( clientAuthOptions ) {
 module.exports = ClientAuthorizer;
 
 },{"crypto":7}],2:[function(require,module,exports){
+(function (global){
 ( function( Pusher ) {
   console.warn( 'By using pusher-js client authentication you are exposing ' +
                 'your application secret. DO NOT do this in production.' );
 
   var ClientAuthorizer = require( './ClientAuthorizer' );
-  ClientAuthorizer.setUpPusher( Pusher );
+  
+  if(!Pusher) {
+    console.warn('The Pusher JavaScript library has not been loaded. ' +
+                 'The client authentication module will not be set up.')
+  }
+  else {
+    ClientAuthorizer.setUpPusher( Pusher );
+  }
+  
+  global.ClientAuthorizer = ClientAuthorizer;
 
 } )( window.Pusher );
 
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./ClientAuthorizer":1}],3:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
